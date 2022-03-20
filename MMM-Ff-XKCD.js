@@ -50,7 +50,8 @@ Module.register("MMM-Ff-XKCD", {
   start: function () {
     Log.info("Starting module: " + this.name);
     this.config.moduleId = this.identifier;
-    if (this.config.persistenceId === null) this.config.persistenceId = this.config.moduleId;
+    if (this.config.persistenceId === null)
+      this.config.persistenceId = this.config.moduleId;
     if (this.config.persistence) {
       this.readPersistentState();
     }
@@ -59,7 +60,11 @@ Module.register("MMM-Ff-XKCD", {
 
   clientUsesStorage: function () {
     const config = this.config;
-    return config.persistence === "client" || (config.persistence === "electron" && window.navigator.userAgent.match(/Electron/i));
+    return (
+      config.persistence === "client" ||
+      (config.persistence === "electron" &&
+        window.navigator.userAgent.match(/Electron/i))
+    );
   },
 
   getPersistenceStore: function () {
@@ -83,7 +88,7 @@ Module.register("MMM-Ff-XKCD", {
 
   writePersistentState: function () {
     const config = this.config;
-    if (this.clientUsesStorage()) {
+    if (this.clientUsesStorage() && this.comicData?.num) {
       const path = this.getPersistenceStore(config);
       const data = JSON.stringify({ id: this.comicData.num });
       window.localStorage.setItem(path, data);
@@ -101,9 +106,21 @@ Module.register("MMM-Ff-XKCD", {
   getHeader: function () {
     if (!this.config.showTitle || !this.comicData) return null;
     let title = [];
-    title.push(this.config.header + (this.config.showNum && this.comicData.num ? " " + this.comicData.num : ""));
+    title.push(
+      this.config.header +
+        (this.config.showNum && this.comicData.num
+          ? " " + this.comicData.num
+          : "")
+    );
     if (!this.comicData.title === "") title.push(this.comicData.title);
-    if (this.config.showDate && this.comicData.year) title.push([this.comicData.year, this.comicData.month.padStart(2, "0"), this.comicData.day.padStart(2, "0")].join("-"));
+    if (this.config.showDate && this.comicData.year)
+      title.push(
+        [
+          this.comicData.year,
+          this.comicData.month.padStart(2, "0"),
+          this.comicData.day.padStart(2, "0")
+        ].join("-")
+      );
     return title.join(" - ");
   },
 
@@ -172,7 +189,14 @@ Module.register("MMM-Ff-XKCD", {
   isAcceptableSender(sender) {
     if (!sender) return true;
     const acceptableSender = this.config.events.sender;
-    return !acceptableSender || acceptableSender === sender.identifier || (Array.isArray(acceptableSender) && acceptableSender.includes(sender.identifier));
+    return (
+      !acceptableSender ||
+      acceptableSender === sender.name ||
+      acceptableSender === sender.identifier ||
+      (Array.isArray(acceptableSender) &&
+        (acceptableSender.includes(sender.name) ||
+          acceptableSender.includes(sender.identifier)))
+    );
   },
 
   notificationReceived: function (notification, payload, sender) {
@@ -180,19 +204,34 @@ Module.register("MMM-Ff-XKCD", {
 
     switch (notification) {
       case this.config.events.COMIC_FIRST:
-        if (!this.hidden) this.sendSocketNotification("GET_FIRST_COMIC", { config: this.config });
+        if (!this.hidden)
+          this.sendSocketNotification("GET_FIRST_COMIC", {
+            config: this.config
+          });
         break;
       case this.config.events.COMIC_LATEST:
-        if (!this.hidden) this.sendSocketNotification("GET_LATEST_COMIC", { config: this.config });
+        if (!this.hidden)
+          this.sendSocketNotification("GET_LATEST_COMIC", {
+            config: this.config
+          });
         break;
       case this.config.events.COMIC_PREVIOUS:
-        if (!this.hidden) this.sendSocketNotification("GET_PREVIOUS_COMIC", { config: this.config });
+        if (!this.hidden)
+          this.sendSocketNotification("GET_PREVIOUS_COMIC", {
+            config: this.config
+          });
         break;
       case this.config.events.COMIC_NEXT:
-        if (!this.hidden) this.sendSocketNotification("GET_NEXT_COMIC", { config: this.config });
+        if (!this.hidden)
+          this.sendSocketNotification("GET_NEXT_COMIC", {
+            config: this.config
+          });
         break;
       case this.config.events.COMIC_RANDOM:
-        if (!this.hidden) this.sendSocketNotification("GET_RANDOM_COMIC", { config: this.config });
+        if (!this.hidden)
+          this.sendSocketNotification("GET_RANDOM_COMIC", {
+            config: this.config
+          });
         break;
       default:
         break;
