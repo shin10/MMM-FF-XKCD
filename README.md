@@ -79,7 +79,7 @@ git clone https://github.com/shin10/MMM-Ff-XKCD.git
 | `events`             | `object`         |                    | A filter and list of _event constants_ to remap if necessary.                                                    |
 | `events.sender`      | `string`/`array` | `undefined`        | Filter events to those dispatched by given _module ids_.                                                         |
 | `persistence`        | `string`         | null               | Save current position in sequence. `null`, `"electron"`, `"client"`, `"server"`. See further explanations below. |
-| `persistenceId`      | `string`         | null               |                                                                                                                  |
+| `persistenceId`      | `string`         | null               | The _localStorage key_ or _fs filename_ to save the data to.                                                     |
 | `persistencePath`    | `string`         | null               | The directory used for persistent data on the servers file system. Will fall back to `"$MODULE_PATH/.store"`     |
 
 ### `updateInterval` and `updateOnSuspension`
