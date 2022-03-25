@@ -18,7 +18,7 @@ module.exports = NodeHelper.create({
   comicData: null,
 
   /**
-   * A pool of instance configs with references to their indiviual
+   * A pool of instance configs with references to their individual
    * timerObjects and comic data.
    */
   instanceData: {},
@@ -38,11 +38,16 @@ module.exports = NodeHelper.create({
     this.stopInterval(config);
 
     config.updateOnVisibilityChangeRequested = false;
-    if (!this.instanceData[config.moduleId]) this.instanceData[config.moduleId] = config;
+    if (!this.instanceData[config.moduleId])
+      this.instanceData[config.moduleId] = config;
     const instanceConfig = this.instanceData[config.moduleId];
 
     if (config.updateInterval === null) return;
-    instanceConfig.timerObj = setTimeout(() => this.intervalCallback(instanceConfig), config.updateInterval, config);
+    instanceConfig.timerObj = setTimeout(
+      () => this.intervalCallback(instanceConfig),
+      config.updateInterval,
+      config
+    );
   },
 
   intervalCallback: function (config) {
@@ -103,7 +108,8 @@ module.exports = NodeHelper.create({
   },
 
   socketNotificationReceived: function (notification, payload) {
-    const instanceConfig = this.instanceData[payload.config.moduleId] || payload.config;
+    const instanceConfig =
+      this.instanceData[payload.config.moduleId] || payload.config;
     switch (notification) {
       case "GET_INITIAL_COMIC":
         this.createPersistenceStorageDirectory(instanceConfig);
@@ -134,9 +140,15 @@ module.exports = NodeHelper.create({
       case "SUSPEND":
         instanceConfig.hidden = true;
         if (!instanceConfig.comic) return;
-        if (instanceConfig.updateOnVisibilityChangeRequested && instanceConfig.updateOnSuspension === true) {
+        if (
+          instanceConfig.updateOnVisibilityChangeRequested &&
+          instanceConfig.updateOnSuspension === true
+        ) {
           this.proceed(instanceConfig);
-        } else if (!instanceConfig.timerObj && instanceConfig.updateOnSuspension !== true) {
+        } else if (
+          !instanceConfig.timerObj &&
+          instanceConfig.updateOnSuspension !== true
+        ) {
           this.startInterval(instanceConfig);
         }
         break;
@@ -144,7 +156,10 @@ module.exports = NodeHelper.create({
         instanceConfig.hidden = false;
 
         if (!instanceConfig.comic) return;
-        if (instanceConfig.updateOnVisibilityChangeRequested && instanceConfig.updateOnSuspension === false) {
+        if (
+          instanceConfig.updateOnVisibilityChangeRequested &&
+          instanceConfig.updateOnSuspension === false
+        ) {
           this.proceed(instanceConfig);
         } else if (!instanceConfig.timerObj) {
           this.startInterval(instanceConfig);
@@ -202,7 +217,9 @@ module.exports = NodeHelper.create({
 
     const instanceConfig = this.instanceData[config.moduleId];
     if (instanceConfig.comic?.num) {
-      this.sendSocketNotification("UPDATE_COMIC", { config: this.prepareNotificationConfig(instanceConfig) });
+      this.sendSocketNotification("UPDATE_COMIC", {
+        config: this.prepareNotificationConfig(instanceConfig)
+      });
       return;
     }
 
@@ -225,7 +242,9 @@ module.exports = NodeHelper.create({
       switch (initialComic) {
         case "latest":
           config.comic = this.comicData;
-          this.sendSocketNotification("UPDATE_COMIC", { config: this.prepareNotificationConfig(instanceConfig) });
+          this.sendSocketNotification("UPDATE_COMIC", {
+            config: this.prepareNotificationConfig(instanceConfig)
+          });
           break;
         case "first":
           this.getComic(config, 1);
@@ -242,17 +261,23 @@ module.exports = NodeHelper.create({
   updateComic: function (config, comic) {
     config.comic = comic;
     const instanceConfig = (this.instanceData[config.moduleId] = config);
-    this.sendSocketNotification("UPDATE_COMIC", { config: this.prepareNotificationConfig(instanceConfig) });
+    this.sendSocketNotification("UPDATE_COMIC", {
+      config: this.prepareNotificationConfig(instanceConfig)
+    });
     this.writePersistentState(config, { id: comic.num });
     this.startInterval(config);
   },
 
   getPersistenceStoragePath: function (config) {
-    return [config.persistencePath, config.persistenceId].join("/").replace(/\/\//g, "/").replace(/\/$/, "");
+    return [config.persistencePath, config.persistenceId]
+      .join("/")
+      .replace(/\/\//g, "/")
+      .replace(/\/$/, "");
   },
 
   createPersistenceStorageDirectory: function (config) {
-    if (config.persistencePath === null) config.persistencePath = `${this.path}/.store`;
+    if (config.persistencePath === null)
+      config.persistencePath = `${this.path}/.store`;
     if (config.persistence === "server") {
       const path = this.getPersistenceStoragePath(config);
       if (!fs.existsSync(path)) {
@@ -280,7 +305,10 @@ module.exports = NodeHelper.create({
     if (config.persistence === "server") {
       const path = this.getPersistenceStoragePath(config);
       const filePath = path + "/data";
-      fs.writeFileSync(filePath, JSON.stringify(data), { encoding: "utf8", flag: "w" });
+      fs.writeFileSync(filePath, JSON.stringify(data), {
+        encoding: "utf8",
+        flag: "w"
+      });
     }
   },
 

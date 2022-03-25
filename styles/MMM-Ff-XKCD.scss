@@ -1,0 +1,42 @@
+/* Magic Mirror
+ * Module: MMM-Ff-XKCD
+ *
+ * By Michael Trenkler
+ * ISC Licensed.
+ */
+.MMM-Ff-XKCD {
+  .error {
+    color: #f00;
+  }
+
+  .comic-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .comic {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+
+    &.grayscale {
+      filter: grayscale(1);
+    }
+
+    &.inverted {
+      filter: invert(1);
+    }
+
+    &.grayscale.inverted {
+      filter: grayscale(1) invert(1);
+    }
+  }
+
+  .alt-text {
+    padding: 0.5em;
+    font-size: 0.75em;
+    opacity: 0.5;
+  }
+}

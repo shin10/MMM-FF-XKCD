@@ -100,7 +100,7 @@ Module.register("MMM-Ff-XKCD", {
   },
 
   getStyles: function () {
-    return ["MMM-Ff-XKCD.css"];
+    return [this.file("./styles/MMM-Ff-XKCD.css")];
   },
 
   getHeader: function () {
