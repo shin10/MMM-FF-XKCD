@@ -1,5 +1,5 @@
 /* Magic Mirror
- * Module: MMM-Ff-XKCD
+ * Module: MMM-FF-XKCD
  *
  * By Michael Trenkler
  * ISC Licensed.

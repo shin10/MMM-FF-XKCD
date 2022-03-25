@@ -1,11 +1,11 @@
 /* Magic Mirror
- * Module: MMM-Ff-XKCD
+ * Module: MMM-FF-XKCD
  *
  * By Michael Trenkler
  * ISC Licensed.
  */
 
-Module.register("MMM-Ff-XKCD", {
+Module.register("MMM-FF-XKCD", {
   defaults: {
     header: "xkcd",
     initialComic: "latest",
@@ -100,7 +100,7 @@ Module.register("MMM-Ff-XKCD", {
   },
 
   getStyles: function () {
-    return [this.file("./styles/MMM-Ff-XKCD.css")];
+    return [this.file("./styles/MMM-FF-XKCD.css")];
   },
 
   getHeader: function () {
