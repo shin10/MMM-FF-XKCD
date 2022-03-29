@@ -135,7 +135,7 @@ Module.register("MMM-FF-XKCD", {
 
     let loaded = this.comicData?.count !== 0;
     if (!loaded) {
-      wrapper.innerHTML = "Loading...";
+      wrapper.innerHTML = this.translate("LOADING");
       wrapper.className = "light small dimmed";
       return wrapper;
     }
