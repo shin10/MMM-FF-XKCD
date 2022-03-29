@@ -168,7 +168,8 @@ Module.register("MMM-FF-XKCD", {
   },
 
   socketNotificationReceived: function (notification, payload) {
-    if (payload.config?.moduleId !== this.config.moduleId) return;
+    if (!payload.config || payload.config.moduleId !== this.config.moduleId)
+      return;
     switch (notification) {
       case "ERROR":
         this.error = payload;
