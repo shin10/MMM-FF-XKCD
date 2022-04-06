@@ -208,50 +208,52 @@ Module.register("MMM-FF-XKCD", {
   notificationReceived: function (notification, payload, sender) {
     if (!this.isAcceptableSender(sender)) return;
 
-    switch (notification) {
-      case this.config.events.COMIC_FIRST:
-        if (!this.hidden) {
-          this.showLoader();
-          this.sendSocketNotification("GET_FIRST_COMIC", {
-            config: this.config
-          });
-        }
-        break;
-      case this.config.events.COMIC_LATEST:
-        if (!this.hidden) {
-          this.showLoader();
-          this.sendSocketNotification("GET_LATEST_COMIC", {
-            config: this.config
-          });
-        }
-        break;
-      case this.config.events.COMIC_PREVIOUS:
-        if (!this.hidden) {
-          this.showLoader();
-          this.sendSocketNotification("GET_PREVIOUS_COMIC", {
-            config: this.config
-          });
-        }
-        break;
-      case this.config.events.COMIC_NEXT:
-        if (!this.hidden) {
-          this.showLoader();
-          this.sendSocketNotification("GET_NEXT_COMIC", {
-            config: this.config
-          });
-        }
-        break;
-      case this.config.events.COMIC_RANDOM:
-        if (!this.hidden) {
-          this.showLoader();
-          this.sendSocketNotification("GET_RANDOM_COMIC", {
-            config: this.config
-          });
-        }
-        break;
-      default:
-        break;
-    }
+    this.config.events[notification]?.split(" ").each((e) => {
+      switch (e) {
+        case "COMIC_FIRST":
+          if (!this.hidden) {
+            this.showLoader();
+            this.sendSocketNotification("GET_FIRST_COMIC", {
+              config: this.config
+            });
+          }
+          break;
+        case "COMIC_LATEST":
+          if (!this.hidden) {
+            this.showLoader();
+            this.sendSocketNotification("GET_LATEST_COMIC", {
+              config: this.config
+            });
+          }
+          break;
+        case "COMIC_PREVIOUS":
+          if (!this.hidden) {
+            this.showLoader();
+            this.sendSocketNotification("GET_PREVIOUS_COMIC", {
+              config: this.config
+            });
+          }
+          break;
+        case "COMIC_NEXT":
+          if (!this.hidden) {
+            this.showLoader();
+            this.sendSocketNotification("GET_NEXT_COMIC", {
+              config: this.config
+            });
+          }
+          break;
+        case "COMIC_RANDOM":
+          if (!this.hidden) {
+            this.showLoader();
+            this.sendSocketNotification("GET_RANDOM_COMIC", {
+              config: this.config
+            });
+          }
+          break;
+        default:
+          break;
+      }
+    });
   },
 
   suspend: function () {

@@ -48,11 +48,11 @@ git clone https://github.com/shin10/MMM-FF-XKCD.git
     sequence: "default",
     updateOnSuspension: true,
     events: {
-      COMIC_FIRST: "ARTICLE_FIRST",
-      COMIC_LATEST: "ARTICLE_LATEST",
-      COMIC_PREVIOUS: "ARTICLE_PREVIOUS",
-      COMIC_NEXT: "ARTICLE_NEXT",
-      COMIC_RANDOM: "ARTICLE_RANDOM"
+      COMIC_FIRST: "COMIC_FIRST",
+      COMIC_LATEST: "COMIC_LATEST",
+      ARTICLE_PREVIOUS: "COMIC_PREVIOUS",
+      ARTICLE_NEXT: "COMIC_NEXT",
+      COMIC_RANDOM: null
     }
   }
 }
